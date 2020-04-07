@@ -11,44 +11,46 @@
 // that I want you to find :) 
 
 class TicTacToe {
-    private r: number[];
-    private c: number[];
-    private d: number;
-    private rd: number;
+    private rows: number[];
+    private cols: number[];
+    private diagonal: number;
+    private reverseDiagonal: number;
 
-    constructor(private n: number) {
-        this.r = [];
-        this.c = [];
+    constructor(private boardSize: number) {
+        this.rows = Array(this.boardSize).fill(0);
+        this.cols = Array(this.boardSize).fill(0);
 
-        this.d = 0;
-        this.rd = 0;
+        this.diagonal = 0;
+        this.reverseDiagonal = 0;
     }
 
     // the player can be either 1 or 2
     // return 0 if no one win
     // return 1 if player 1 wins
     // return 2 if player 2 wins
-    public move(i: number, j: number, p: number): number {
-        let s: number = p == 1 ? 1 : -1;
-        this.r[i] += s;
-        this.c[j] += s;
+    public move(row: number, col: number, player: number): number {
+        if (player < 1 || player > 2) {
+            console.log("ERROR");
+        }
+        let s: number = player == 1 ? 1 : -1;
+        this.rows[row] += s;
+        this.cols[col] += s;
 
-        if (i == j) {
-            this.d += s;
+        if (row == col) {
+            this.diagonal += s;
         }
 
-        if (i + j == this.n - 1) {
-            this.rd += s;
+        if (row + col == this.boardSize - 1) {
+            this.reverseDiagonal += s;
         }
 
-        if (Math.abs(this.r[i]) == this.n ||
-            Math.abs(this.c[j]) == this.n ||
-            Math.abs(this.d) == this.n ||
-            Math.abs(this.rd) == this.n) {
-                return p;
-            }
+        if (Math.abs(this.rows[row]) == this.boardSize ||
+            Math.abs(this.cols[col]) == this.boardSize ||
+            Math.abs(this.diagonal) == this.boardSize ||
+            Math.abs(this.reverseDiagonal) == this.boardSize) {
+                return player;
+        } 
         return 0;
-
     }
 }
 
